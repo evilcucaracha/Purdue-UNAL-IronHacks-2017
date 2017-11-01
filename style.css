@@ -4,10 +4,6 @@
   color: #444;
 }
 
-.dark-section{
-  background-color: red;
-}
-
 body {
   color: #444444;
   font-family: 'Roboto', sans-serif;
@@ -23,29 +19,37 @@ body {
   margin-top: 20px;
 }
 
-#nav-bar{
+.navbar{
   top: 0;
   left: 0;
   background-color: #ffffff;
-  height: 50px;
-  border-bottom: 1px solid #000000;
+  border-bottom: 2px solid #4068af;
   position: fixed;
   width: 100%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 100;
-  padding-top: 10px;
+  padding: 0px;
 }
 
-#nav-bar label{
-  margin-right: 20%;
+.navbar button{
+  color: #4068af;
+  background-color: #ffffff;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 100px;
+  margin-left: 10px;
+  border-radius: 0px;
 }
 
-#nav-bar a{
-  margin-right: 2%;
+.navbar button:hover{
+  background-color: #4068af;
+  color: #ffffff;
+
 }
 
 #banner{
-  text-align: center;
+  background-position: center;
+  background-image: url("");
 }
 
 #banner img{
