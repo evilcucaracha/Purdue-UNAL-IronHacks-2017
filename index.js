@@ -1,11 +1,28 @@
 var map;
+var NYUSternLocation = {lat: 40.7290549, lng: -73.99652329999998};
 
-function initMap() {
-  // Create a map object and specify the DOM element for display.
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 40.7288542, lng: -73.9972302},
-    zoom: 15
-  });
+function initMap(){
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 17,
+      center: NYUSternLocation
+    });
+    putMarker(NYUSternLocation);
+    console.log(getDataFromURL("https://data.cityofnewyork.us/api/views/fn6f-htvy/rows.json"));
+}
+
+function putMarker(location){
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map
+    });
+    return;
+}
+
+function getDataFromURL(URL){
+    var data = $.get(URL, function(){
+        console.log(URL);
+    })
+    return data;
 }
 
 $('a[href^="#"]').click(function () {
