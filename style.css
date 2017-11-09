@@ -71,7 +71,7 @@ nav{
   color: white;
 }
 
-.navbar .btn:focus,.btn:active {
+.btn:focus,.btn:active {
   box-shadow: none;
   outline-color: white !important;
   background-color: #252839;
@@ -131,11 +131,21 @@ nav{
     transform:translatZ(0) scale(1.20);
 }
 
-
 #map-section{
   background:  #677077;
   padding-top: 86px;
   padding-bottom: 5vh;
+}
+
+#map-section button{
+  border-radius: 0px;
+  margin: 0px;
+  background-color: #252839;
+  color: white;
+}
+
+#map-section button:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #map{
