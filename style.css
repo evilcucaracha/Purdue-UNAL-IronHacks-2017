@@ -132,7 +132,7 @@ nav{
 }
 
 #map-section{
-  background:  #677077;
+  background:  #eceff2;
   padding-top: 86px;
   padding-bottom: 5vh;
 }
@@ -147,8 +147,12 @@ nav{
   height: 50px;
 }
 
+#college-button{
+  background-color: #f2b632;
+}
+
 #map-section button:hover{
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 #map{

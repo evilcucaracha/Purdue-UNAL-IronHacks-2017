@@ -1,29 +1,6 @@
 var map;
 var NYUSternLocation = {lat: 40.7290549, lng: -73.99652329999998};
 
-function initMap(){
-    map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
-      center: NYUSternLocation
-    });
-    putCollegeMarker(NYUSternLocation);
-    loadMarkers();
-}
-
-function loadMarkers(){
-    loadMuseums();
-    loadArtGalleries();
-}
-
-function putCollegeMarker(location){
-    var marker = new google.maps.Marker({
-      position: location,
-      map: map,
-      icon: "https://github.com/evilcucaracha/Purdue-UNAL-IronHacks-2017/blob/master/Images/college.png?raw=true"
-    });
-    return;
-}
-
 $('a[href^="#"]').click(function () {
     $('html, body').animate({
         scrollTop: $('[name="' + $.attr(this, 'href').substr(1) + '"]').offset().top
@@ -31,14 +8,136 @@ $('a[href^="#"]').click(function () {
     return;
 });
 
+function initMap(){
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: NYUSternLocation,
+      styles: [
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{visibility: 'off'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#746855'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{visibility: 'off'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ]
+
+    });
+    loadMarkers();
+}
+
+function loadMarkers(){
+    loadCollege(NYUSternLocation);
+    loadMuseums();
+    loadArtGalleries();
+}
+
 function putMarkers(map, array){
     for(var i=0; i<array.length;i++){
         array[i].setMap(map);
     }
 }
 
+var collegeMarker = [];
+var showCollege = true;
+var collegeButton = document.getElementById("college-button");
 
 
+$("#college-button").click(function(){
+    if(!showCollege){
+        putMarkers(map, collegeMarker);
+
+        collegeButton.style.backgroundColor = "#f2b632";
+    }else{
+        putMarkers(null, collegeMarker);
+        collegeButton.style.backgroundColor = "#252839";
+    }
+    showCollege = !showCollege;
+});
+
+function loadCollege(location){
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map,
+      icon: "https://github.com/evilcucaracha/Purdue-UNAL-IronHacks-2017/blob/master/Images/college.png?raw=true"
+    });
+    collegeMarker.push(marker);
+    marker.setMap(null);
+
+    putMarkers(map, collegeMarker);
+    collegeButton.style.backgroundColor = "#f2b632";
+}
 
 //var museumIcon = 'https://i.imgur.com/RVdSDPo.png';
 var museumMarkers = [];
@@ -56,8 +155,6 @@ $("#museums-button").click(function(){
     showMuseums = !showMuseums;
 });
 
-
-
 function loadMuseums(){
     var data = $.get("https://data.cityofnewyork.us/api/views/fn6f-htvy/rows.json")
     .done(function(){
@@ -67,7 +164,6 @@ function loadMuseums(){
             var marker = new google.maps.Marker({
                 position: location,
                 map: map
-                //icon: museumIcon
             });
             museumMarkers.push(marker);
             marker.setMap(null);
@@ -107,4 +203,9 @@ function loadArtGalleries(){
             marker.setMap(null);
         }
     })
+}
+
+function bikeRoutes(){
+    var bikeLayer = new google.maps.BicyclingLayer();
+    bikeLayer.setMap(map);
 }
