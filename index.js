@@ -84,7 +84,7 @@ function initMap(){
             {
               featureType: 'water',
               elementType: 'labels.text.fill',
-              stylers: [{color: '#515c6d'}]
+              stylers: [{color: '#9ca5b3'}]
             },
             {
               featureType: 'water',
@@ -117,7 +117,6 @@ var collegeButton = document.getElementById("college-button");
 $("#college-button").click(function(){
     if(!showCollege){
         putMarkers(map, collegeMarker);
-
         collegeButton.style.backgroundColor = "#f2b632";
     }else{
         putMarkers(null, collegeMarker);
@@ -132,6 +131,14 @@ function loadCollege(location){
       map: map,
       icon: "https://github.com/evilcucaracha/Purdue-UNAL-IronHacks-2017/blob/master/Images/college.png?raw=true"
     });
+    var infowindow = new google.maps.InfoWindow();
+    content = "<h4>NYU Stern</h4>"
+    marker.addListener('click', function(content){
+        return function(){
+            infowindow.setContent(content);
+            infowindow.open(map, this);
+        }
+    }(content));
     collegeMarker.push(marker);
     marker.setMap(null);
 
@@ -156,18 +163,31 @@ $("#museums-button").click(function(){
 });
 
 function loadMuseums(){
+
     var data = $.get("https://data.cityofnewyork.us/api/views/fn6f-htvy/rows.json")
     .done(function(){
         for (var i = 0; i < (data.responseJSON.data).length; i++) {
-            var pos = data.responseJSON.data[i][8].split("(")[1].split(")")[0].split(" ");
-            var location = new google.maps.LatLng(pos[1],pos[0]);
+            var locationFromData = data.responseJSON.data[i][8].split("(")[1].split(")")[0].split(" ");
+            var info = [];
+            info[0] = data.responseJSON.data[i][9];
+            info[1] = data.responseJSON.data[i][10];
+            info[2] = data.responseJSON.data[i][11];
+            var content = "<h4>" + info[0] + "</h4><p>" + info[1] + "</p><a href="+info[2]+" target='_blank'>More info</a>";
+            var location = new google.maps.LatLng(locationFromData[1], locationFromData[0]);
+            var infowindow = new google.maps.InfoWindow();
             var marker = new google.maps.Marker({
                 position: location,
                 map: map
             });
+            marker.addListener('click', function(content){
+                return function(){
+                    infowindow.setContent(content);
+                    infowindow.open(map, this);
+                }
+            }(content));
             museumMarkers.push(marker);
             marker.setMap(null);
-        }
+            }
     })
 }
 
@@ -192,13 +212,24 @@ function loadArtGalleries(){
     var data = $.get("https://data.cityofnewyork.us/api/views/43hw-uvdj/rows.json")
     .done(function(){
         for (var i = 0; i < (data.responseJSON.data).length; i++) {
-            var pos = data.responseJSON.data[i][9].split("(")[1].split(")")[0].split(" ");
-            var location = new google.maps.LatLng(pos[1],pos[0]);
+            var locationFromData = data.responseJSON.data[i][9].split("(")[1].split(")")[0].split(" ");
+            var info = [];
+            info[0] = data.responseJSON.data[i][8];
+            info[1] = data.responseJSON.data[i][10];
+            info[2] = data.responseJSON.data[i][11];
+            var content = "<h4>" + info[0] + "</h4><p>" + info[1] + "</p><a href="+info[2]+" target='_blank'>More info</a>";
+            var location = new google.maps.LatLng(locationFromData[1], locationFromData[0]);
+            var infowindow = new google.maps.InfoWindow();
             var marker = new google.maps.Marker({
                 position: location,
                 map: map
-                //icon: museumIcon
             });
+            marker.addListener('click', function(content){
+                return function(){
+                    infowindow.setContent(content);
+                    infowindow.open(map, this);
+                }
+            }(content));
             artGalleriesMarkers.push(marker);
             marker.setMap(null);
         }
