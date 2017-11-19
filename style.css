@@ -173,3 +173,35 @@ footer{
   color: white;
   text-align: center;
 }
+
+@media (max-width: 1015px){
+  h1{
+    font-size: 300%;
+  }
+
+  h2{
+    font-size: 150%;
+  }
+}
+
+@media (max-width: 800px){
+  .navbar nav{
+    display: none;
+  }
+
+  #info{
+    height: 1100px;
+  }
+
+   #map-section{
+    height: 800px;
+   }
+
+  #info img{
+    margin-top: 50px;
+  }
+
+  #map-section button{
+    margin-top: 10px;
+  }
+}
